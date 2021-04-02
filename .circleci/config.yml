@@ -42,7 +42,22 @@ jobs:
           else
             echo "Non!"; exit 1
           fi
-
+  save_output:
+    docker:
+      - image: circleci/welcome-orb@0.4.1
+    steps:
+      - run: echo "Save this output in file" > my_workspace/output.txt
+      - persist_to_workspace:
+          root: my_workspace
+          paths:
+            - output.txt
+  print_output:
+    docker:
+      - image: circleci/welcome-orb@0.4.1
+    steps:
+      - attach_workspace:
+          at: output.txt
+      - run: cat output.txt
 workflows:
   version: 2
   # Name the workflow "one_and_two"
@@ -53,3 +68,7 @@ workflows:
       - two:
           requires:
             - one
+      - save_output
+      - print_output:
+          requires:
+            - save_output
