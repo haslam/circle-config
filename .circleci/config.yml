@@ -12,7 +12,7 @@ commands:
         default: "Build ID"
         type: string
     steps:
-      - run: echo "Printing <<parameter.to>>"
+      - run: echo "Printing <<parameters.to>>"
       - run: echo ${CIRCLE_WORKFLOW_ID}
 jobs:
   one:
@@ -39,8 +39,6 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD
     steps:
-      - printenvs:
-          to: "You know what!"
       - checkout
       - run: echo "La familiar merci"
       - attach_workspace:
@@ -75,6 +73,17 @@ jobs:
       - attach_workspace:
           at: my_other_workspace
       - run: cat my_other_workspace/output.txt
+
+  employ_command:
+    docker:
+      - image: circleci/ruby:2.4.1
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - printenvs:
+          to: "CD build no"
+
 workflows:
   version: 2
   # Name the workflow "one_and_two"
@@ -89,3 +98,4 @@ workflows:
       - print_output:
           requires:
             - save_output
+      - employ_command
