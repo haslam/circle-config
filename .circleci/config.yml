@@ -6,7 +6,7 @@ version: 2
   # welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 commands:
-  print_envs:
+  printenvs:
     parameters:
       to:
         default: "Build ID"
@@ -39,6 +39,8 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD
     steps:
+      - printenvs:
+          to: "You know what!"
       - checkout
       - run: echo "La familiar merci"
       - attach_workspace:
@@ -50,8 +52,6 @@ jobs:
           else
             echo "Non!"; exit 1
           fi
-      - print_envs:
-          to: "You know what!"
   save_output:
     docker:
       - image: circleci/ruby:2.4.1
