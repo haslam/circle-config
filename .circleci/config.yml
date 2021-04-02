@@ -5,7 +5,15 @@ version: 2
   # Declare a dependency on the welcome-orb
   # welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
-
+commands:
+  print_envs:
+    parameters:
+      to:
+        default: "Build ID"
+        type: string
+    steps:
+      - run: echo "Printing <<parameter.to>>"
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 jobs:
   one:
     docker:
@@ -42,6 +50,8 @@ jobs:
           else
             echo "Non!"; exit 1
           fi
+      - print_envs:
+          to: "You know what!"
   save_output:
     docker:
       - image: circleci/ruby:2.4.1
