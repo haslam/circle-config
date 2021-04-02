@@ -49,9 +49,10 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD
     steps:
-      - run: echo "Save this output in file" > my_workspace/output.txt
+      - run: mkdir -p my_other_workspace
+      - run: echo "Save this output in file" > my_other_workspace/output.txt
       - persist_to_workspace:
-          root: my_workspace
+          root: my_other_workspace
           paths:
             - output.txt
   print_output:
@@ -62,8 +63,8 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - attach_workspace:
-          at: my_workspace
-      - run: cat my_workspace/output.txt
+          at: my_other_workspace
+      - run: cat my_other_workspace/output.txt
 workflows:
   version: 2
   # Name the workflow "one_and_two"
