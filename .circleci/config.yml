@@ -44,7 +44,10 @@ jobs:
           fi
   save_output:
     docker:
-      - image: circleci/welcome-orb@0.4.1
+      - image: circleci/ruby:2.4.1
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
     steps:
       - run: echo "Save this output in file" > my_workspace/output.txt
       - persist_to_workspace:
@@ -53,7 +56,10 @@ jobs:
             - output.txt
   print_output:
     docker:
-      - image: circleci/welcome-orb@0.4.1
+      - image: circleci/ruby:2.4.1
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
     steps:
       - attach_workspace:
           at: output.txt
