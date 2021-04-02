@@ -62,8 +62,8 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - attach_workspace:
-          at: output.txt
-      - run: cat output.txt
+          at: my_workspace
+      - run: cat my_workspace/output.txt
 workflows:
   version: 2
   # Name the workflow "one_and_two"
